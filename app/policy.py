@@ -8,4 +8,17 @@ class PolicyResult:
     decision: Decision
     reasons: List[str]
     flags: List[str]
-    
+
+def evaluate_policy(audience: str, data_classification: str, pii_detected: bool) -> PolicyResult:
+    reasons: List[str] = []
+    flags: List[str] = []
+
+    # Confidential data must not be processed for an external audience.
+    if data_classification == "confidential" and audience == "external":
+        return PolicyResult(
+            decision = "DENY",
+            reasons = ["Confidential data cannot be processed for an external audience."],
+            flags=["CONFIDENTIAL_EXTERNAL"]
+        )
+
+    return PolicyResult(decision="ALLOW", reasons=reasons, flags=flags)
