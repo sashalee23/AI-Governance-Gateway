@@ -1,7 +1,9 @@
+import os
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path(__file__).resolve().parent.parent / "audit.db"
+DEFAULT_DB_PATH = Path(__file__).resolve().parent.parent / "audit.db"
+DB_PATH = Path(os.environ.get("AUDIT_DB_PATH", str(DEFAULT_DB_PATH)))
 
 def get_conn() -> sqlite3.Connection:
     conn = sqlite3.connect(DB_PATH)
