@@ -1,12 +1,18 @@
 import json
 import hashlib
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Literal, Sequence, TypedDict
 
 from .db import get_conn
 
-# hash the input text for the log!
 def sha256_text(text: str) -> str:
+    """
+    Return a SHA-256 hash of the given text.
+
+    Governance note:
+        - We store the hash (fingerprint) instead of raw text to avoid logging
+          potentially sensitive input while still supporting audit/replay checks.
+    """
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 def save_audit_record(
@@ -21,6 +27,26 @@ def save_audit_record(
     risk_flags: List[str],
     summary: str,
 ) -> None:
+
+    """
+    Persist an audit record for a summarize request.
+
+    Args:
+        request_id: Unique identifier for this request (UUID string).
+        text: Raw input text. This function will hash it; it is not stored.
+        audience: 'internal' or 'external'.
+        data_classification: 'public' | 'internal' | 'confidential' | 'unknown'.
+        pii_detected: Whether simple PII detection flagged the text.
+        policy_decision: 'ALLOW' or 'DENY'.
+        policy_reasons: Human-readable reasons explaining the decision.
+        risk_flags: Machine-readable flags for dashboards/metrics.
+        summary: The returned summary (or denial message).
+
+    Security/Governance:
+        - Stores only input_hash, not raw text.
+        - Stores reasons + flags so decisions are explainable later.
+    """
+
     created_at = datetime.now(timezone.utc).isoformat()
     input_hash = sha256_text(text)
 
@@ -50,6 +76,12 @@ def save_audit_record(
         conn.commit()
 
 def get_audit_record(request_id: str) -> Optional[Dict[str, Any]]:
+    """
+    Fetch a stored audit record by request_id.
+
+    Returns:
+        The audit record dict if found, otherwise None.
+    """
     with get_conn() as conn:
         row = conn.execute(
             "SELECT * FROM audit_log WHERE request_id = ?",
