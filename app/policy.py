@@ -21,4 +21,8 @@ def evaluate_policy(audience: str, data_classification: str, pii_detected: bool)
             flags=["CONFIDENTIAL_EXTERNAL"]
         )
 
+    if pii_detected:
+        flags.append("PII_DETECTED")
+        reasons.append("Possible PII detected in input.")
+
     return PolicyResult(decision="ALLOW", reasons=reasons, flags=flags)
