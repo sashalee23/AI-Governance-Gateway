@@ -1,9 +1,9 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from uuid import uuid4
 from .schemas import SummarizeRequest, SummarizeResponse
 from .classification import detect_pii
 from .policy import evaluate_policy
-from .audit import save_audit_record
+from .audit import save_audit_record, get_audit_record
 
 router = APIRouter()
 
@@ -65,3 +65,10 @@ def summarize(req: SummarizeRequest):
     )
 
     return resp
+
+@router.get("/v1/audit/{request_id}")
+def audit(request_id: str):
+    record = get_audit_record(request_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="Audit record not found")
+    return record
