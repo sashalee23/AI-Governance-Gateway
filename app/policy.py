@@ -17,7 +17,7 @@ Decision = Literal["ALLOW", "DENY"]
 
 @dataclass
 class PolicyResult:
-     """
+    """
     Result of evaluating a governance policy decision.
 
     Attributes:
