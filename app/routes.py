@@ -4,7 +4,7 @@ from .schemas import SummarizeRequest, SummarizeResponse
 from .classification import detect_pii
 from .policy import evaluate_policy
 from .audit import save_audit_record, get_audit_record
-
+from .prompts import load_prompt
 router = APIRouter()
 
 @router.get("/health")
@@ -14,6 +14,8 @@ def health():
 @router.post("/v1/tasks/summarize", response_model=SummarizeResponse)
 def summarize(req: SummarizeRequest):
     request_id = str(uuid4())
+
+    prompt = load_prompt("summarize_v1")
 
     pii_detected = detect_pii(req.text)
 
@@ -41,6 +43,8 @@ def summarize(req: SummarizeRequest):
             policy_reasons=resp.policy_reasons,
             risk_flags=resp.risk_flags,
             summary=resp.summary,
+            prompt_version=prompt.version,
+            prompt_hash=prompt.sha256
         )
         return resp
 
@@ -62,6 +66,8 @@ def summarize(req: SummarizeRequest):
         policy_reasons=resp.policy_reasons,
         risk_flags=resp.risk_flags,
         summary=resp.summary,
+        prompt_version=prompt.version,
+        prompt_hash=prompt.sha256
     )
 
     return resp
