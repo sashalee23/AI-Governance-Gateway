@@ -10,8 +10,6 @@ This is a system designed to track WHY a descision was made by an AI system whil
 This is an LLM wrapper API with auditability, policy enforcement and verification.
 
 ## Governance Philosophy
-Governance Philosophy
-
 This project is built around the belief that AI-enabled systems must be governed like any other high-risk backend dependency.
 
 While the system does not claim regulatory compliance, its design is intentionally informed by governance principles found in regulated environments such as healthcare, finance, and public-sector systems.
@@ -34,7 +32,7 @@ The governance model in this service is inspired by — but does not claim compl
 This project is demonstrative and educational: it shows how these principles can be applied to AI systems without overstating legal guarantees.
 
 ### Core Governance Principles
-1. Explicit Policy Enforcement
+1. ***Explicit Policy Enforcement***
     Every request is evaluated against deterministic, rule-based policies before any AI processing occurs. If a request violates policy, it is denied before reaching an AI model.
 
     Policies are:
@@ -43,18 +41,18 @@ This project is demonstrative and educational: it shows how these principles can
         explainable
         enforced consistently
 
-2. Deny-by-Default for Unsafe Combinations
+2. ***Deny-by-Default*** for Unsafe Combinations
     Certain combinations of input context are treated as inherently unsafe.
-        
-        For example:
-        confidential data + external audience → denied
+   
+   For example:
+   confidential data + external audience → denied
 
     This mirrors real-world regulatory expectations, where some data flows are prohibited regardless of intent or downstream safeguards.
 
-3. Data Minimization
+4. ***Data Minimization***
     Inputs are hashed using a deterministic cryptographic hash. The hash enables audit, replay detection, and verification. Sensitive content is never persisted
 
-4. Explainability and Auditability by Design
+5. ***Explainability and Auditability by Design***
     Every request produces an explicit, reviewable decision, including:
         a clear allow/deny outcome
         human-readable policy reasons
@@ -69,10 +67,10 @@ This project is demonstrative and educational: it shows how these principles can
     This ensures that system behavior can be reviewed after the fact, failures can be explained rather than inferred, and accountability is maintained in regulated or high-risk environments. Governance does not rely on “trusting the model,” and audit logging is treated as a core system capability, not an afterthought.
 
 ### Intended Audience
-    This system is designed for:
-        engineers evaluating whether an AI system should be deployed
-        teams operating in regulated or high-risk domains
-        reviewers assessing governance maturity, not just functionality
+This system is designed for:
+    engineers evaluating whether an AI system should be deployed
+    teams operating in regulated or high-risk domains
+    reviewers assessing governance maturity, not just functionality
 
 It is intentionally conservative, explicit, and opinionated in its constraints.
 
