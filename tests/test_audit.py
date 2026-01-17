@@ -24,6 +24,8 @@ def test_audit_round_trip(tmp_path):
         policy_reasons=["ok"],
         risk_flags=["NONE"],
         summary="fake summary",
+        prompt_version="summarize_v1",
+        prompt_hash="dummyhash",
     )
 
     record = get_audit_record(request_id)
