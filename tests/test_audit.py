@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 
 from app.db import init_db
 from app.audit import save_audit_record, get_audit_record
