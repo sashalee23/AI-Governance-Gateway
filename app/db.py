@@ -25,7 +25,9 @@ def init_db() -> None:
                 policy_decision TEXT NOT NULL,
                 policy_reasons TEXT NOT NULL,
                 risk_flags TEXT NOT NULL,
-                summary TEXT NOT NULL
+                summary TEXT NOT NULL,
+                prompt_version TEXT NOT NULL,
+                prompt_hash TEXT NOT NULL
             )
             """
         )

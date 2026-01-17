@@ -26,6 +26,8 @@ def save_audit_record(
     policy_reasons: List[str],
     risk_flags: List[str],
     summary: str,
+    prompt_version: str,
+    prompt_hash: str,
 ) -> None:
 
     """
@@ -41,6 +43,8 @@ def save_audit_record(
         policy_reasons: Human-readable reasons explaining the decision.
         risk_flags: Machine-readable flags for dashboards/metrics.
         summary: The returned summary (or denial message).
+        prompt_version: The version of the prompt file used.
+        prompt_hash: Hash of the prompt text used for this request.
 
     Security/Governance:
         - Stores only input_hash, not raw text.
@@ -56,9 +60,9 @@ def save_audit_record(
             INSERT INTO audit_log (
                 request_id, created_at, audience, data_classification,
                 input_hash, pii_detected, policy_decision, policy_reasons,
-                risk_flags, summary
+                risk_flags, summary, prompt_version, prompt_hash
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 request_id,
@@ -71,6 +75,8 @@ def save_audit_record(
                 json.dumps(policy_reasons),
                 json.dumps(risk_flags),
                 summary,
+                prompt_version,
+                prompt_hash,
             ),
         )
         conn.commit()
@@ -102,4 +108,6 @@ def get_audit_record(request_id: str) -> Optional[Dict[str, Any]]:
         "policy_reasons": json.loads(row["policy_reasons"]),
         "risk_flags": json.loads(row["risk_flags"]),
         "summary": row["summary"],
+        "prompt_version": row["prompt_version"],
+        "prompt_hash": row["prompt_hash"],
     }
