@@ -80,6 +80,13 @@ It is intentionally conservative, explicit, and opinionated in its constraints.
 This project reflects my interest in building AI-enabled backend systems that are testable, auditable, and suitable for regulated environments.
 The focus is not on maximizing AI capability, but on making AI systems defensible, reviewable, and safe to operate.
 
+## Prompt Versioning
+Prompts are treated as versioned system artifacts.
+They are stored as files to support:
+    - change review
+    - auditability
+    - regression testing across versions
+
 ## License
 MIT 
 
