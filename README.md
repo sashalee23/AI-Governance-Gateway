@@ -1,9 +1,9 @@
 # AI Governance Gateway
 
 A careful middle-man that sits between a user and an AI-Model and asks questions like:
-    "Should I even let the AI answer this?"
-    "If it answers, is the answer safe?"
-    "Can I explain later why this answer was given?"
+_"Should I even let the AI answer this?"_,
+_"If it answers, is the answer safe?"_,
+_"Can I explain later why this answer was given?"_
 
 This is a system designed to track WHY a descision was made by an AI system while also putting guardrails in place to decide IF a decision should be made by an AI.
 
@@ -18,15 +18,15 @@ The goal is to demonstrate how systems should be structured when auditability an
 
 ### Regulatory Inspiration
 
-The governance model in this service is inspired by — but does not claim compliance with — widely respected industry frameworks, including:
+The governance model in this service is inspired by (but does not claim compliance with) widely respected industry frameworks, including:
 
-- Health Insurance Portability and Accountability Act (HIPAA)
+- **Health Insurance Portability and Accountability Act (HIPAA)**
     Emphasis on data minimization, access control, and auditability of sensitive information.
 
-- SOC 2–style control thinking
+- **SOC 2–style control thinking**
     Particularly around change traceability, monitoring, and accountability for system behavior.
 
-- International Organization for Standardization ISO 27001 principles
+- **International Organization for Standardization ISO 27001 principles**
     Including least privilege, explicit policy enforcement, and defense-in-depth.
 
 This project is demonstrative and educational: it shows how these principles can be applied to AI systems without overstating legal guarantees.
@@ -64,7 +64,7 @@ This project is demonstrative and educational: it shows how these principles can
         detected risk signals
         timestamps
 
-    This ensures that system behavior can be reviewed after the fact, failures can be explained rather than inferred, and accountability is maintained in regulated or high-risk environments. Governance does not rely on “trusting the model,” and audit logging is treated as a core system capability, not an afterthought.
+    This ensures that system behavior can be reviewed after the fact, failures can be explained rather than inferred, and accountability is maintained in regulated or high-risk environments. Governance does not rely on “trusting the model,” and audit logging is treated as a core system capability, not an afterthought!
 
 ### Intended Audience
 This system is designed for:
